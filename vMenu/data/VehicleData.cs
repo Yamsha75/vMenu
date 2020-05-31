@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1075,6 +1075,13 @@ namespace vMenuClient
                 "TANKERCAR",
             };
             #endregion
+            #region OpenWheel
+            public static List<string> OpenWheel { get; } = new List<string>()
+            {
+                "FORMULA",
+                "FORMULA2",
+            };
+            #endregion
 
 
             /*
@@ -1126,6 +1133,7 @@ namespace vMenuClient
                 [GetLabelText("VEH_CLASS_19")] = Military,
                 [GetLabelText("VEH_CLASS_20")] = Commercial,
                 [GetLabelText("VEH_CLASS_21")] = Trains,
+                [GetLabelText("VEH_CLASS_22")] = OpenWheel,
             };
             #endregion
 
