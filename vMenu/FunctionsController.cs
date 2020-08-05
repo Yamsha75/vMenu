@@ -880,27 +880,27 @@ namespace vMenuClient
                 }
                 #endregion
 
-                if (MainMenu.MiscSettingsMenu.KbTpToWaypoint)
-                {
-                    if (IsAllowed(Permission.MSTeleportToWp))
-                    {
-                        if (Game.IsControlJustReleased(0, (Control)MainMenu.MiscSettingsMenu.KbTpToWaypointKey)
-                            && Fading.IsFadedIn
-                            && !IsPlayerSwitchInProgress()
-                            && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
-                        {
-                            if (Game.IsWaypointActive)
-                            {
-                                TeleportToWp();
-                                Notify.Success("Teleported to waypoint.");
-                            }
-                            else
-                            {
-                                Notify.Error("You need to set a waypoint first.");
-                            }
-                        }
-                    }
-                }
+                // if (MainMenu.MiscSettingsMenu.KbTpToWaypoint)
+                // {
+                //     if (IsAllowed(Permission.MSTeleportToWp))
+                //     {
+                //         if (Game.IsControlJustReleased(0, (Control)MainMenu.MiscSettingsMenu.KbTpToWaypointKey)
+                //             && Fading.IsFadedIn
+                //             && !IsPlayerSwitchInProgress()
+                //             && Game.CurrentInputMode == InputMode.MouseAndKeyboard)
+                //         {
+                //             if (Game.IsWaypointActive)
+                //             {
+                //                 TeleportToWp();
+                //                 Notify.Success("Teleported to waypoint.");
+                //             }
+                //             else
+                //             {
+                //                 Notify.Error("You need to set a waypoint first.");
+                //             }
+                //         }
+                //     }
+                // }
                 if (MainMenu.MiscSettingsMenu.KbDriftMode)
                 {
                     if (IsAllowed(Permission.MSDriftMode))
