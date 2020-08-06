@@ -112,6 +112,17 @@ namespace vMenuClient
             {
                 TeleportToWp();
             }), false);
+            RegisterCommand("repair", new Action<int, List<object>, string>((source, args, rawCommand) =>
+            {
+                var vehicle = GetVehicle(false);
+                if (vehicle != null && vehicle.Exists() && vehicle.Driver == Game.PlayerPed) vehicle.Repair();
+            }), false);
+            RegisterCommand("flip", new Action<int, List<object>, string>((source, args, rawCommand) =>
+            {
+                var vehicle = GetVehicle(false);
+                if (vehicle != null && vehicle.Exists() && vehicle.Driver == Game.PlayerPed)
+                    SetVehicleOnGroundProperly(vehicle.Handle);
+            }), false);
         }
 
         /// Task related
