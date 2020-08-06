@@ -105,6 +105,13 @@ namespace vMenuClient
             Tick += SlowMiscTick;
             Tick += SpectateHandling;
             //Tick += FlaresAndBombsTick;
+            
+            
+            // Commands
+            RegisterCommand("tpwp", new Action<int, List<object>, string>((source, args, rawCommand) =>
+            {
+                TeleportToWp();
+            }), false);
         }
 
         /// Task related
