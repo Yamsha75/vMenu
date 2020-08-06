@@ -123,7 +123,51 @@ namespace vMenuClient
                 if (vehicle != null && vehicle.Exists() && vehicle.Driver == Game.PlayerPed)
                     SetVehicleOnGroundProperly(vehicle.Handle);
             }), false);
+            RegisterCommand("sv", new Action<int, List<object>, string>((source, args, rawCommand) => TrySetVehicle(string.Join(" ", args), MatchingStrategy.Default)
+            ), false);
+            RegisterCommand("svc", new Action<int, List<object>, string>((source, args, 
+            rawCommand) => TrySetVehicle(string.Join(" ", args), MatchingStrategy.OnlyCodes)
+            ), false);
+            RegisterCommand("svn", new Action<int, List<object>, string>((source, args, 
+            rawCommand) => TrySetVehicle(string.Join(" ", args), MatchingStrategy.OnlyNames)
+            ), false);
+            RegisterCommand("cv", new Action<int, List<object>, string>((source, args, 
+            rawCommand) => TryCreateVehicle(string.Join(" ", args), MatchingStrategy.Default)
+            ), false);
+            RegisterCommand("cvc", new Action<int, List<object>, string>((source, args, 
+                    rawCommand) => TryCreateVehicle(string.Join(" ", args), MatchingStrategy.OnlyCodes)
+            ), false);
+            RegisterCommand("cvn", new Action<int, List<object>, string>((source, args, 
+                    rawCommand) => TryCreateVehicle(string.Join(" ", args), MatchingStrategy.OnlyNames)
+            ), false);
         }
+
+        #region sv/cv functions
+        public void TrySetVehicle(string name, MatchingStrategy strategy = MatchingStrategy.Default)
+        {
+            var vehicleName = TryParseVehicleName(name, strategy);
+            if (vehicleName == null) return;
+            var vehicle = GetVehicle(false);
+            if (vehicle != null && vehicle.Exists() && vehicle.Driver == Game.PlayerPed)
+            {
+                vehicle.PreviouslyOwnedByPlayer = false;
+                SetEntityAsMissionEntity(vehicle.Handle, true, true);
+                vehicle.Delete();
+                CommonFunctions._previousVehicle = null;
+                
+                SpawnVehicle(vehicleName, true, true);
+            }
+            else
+                SpawnVehicle(vehicleName, true, MainMenu.VehicleSpawnerMenu.ReplaceVehicle);
+        }
+
+        public void TryCreateVehicle(string name, MatchingStrategy strategy = MatchingStrategy
+            .Default)
+        {
+            var vehicleName = TryParseVehicleName(name, strategy);
+            if (vehicleName != null) SpawnVehicle(vehicleName, false, false);
+        }
+        #endregion
 
         /// Task related
         #region gc thread

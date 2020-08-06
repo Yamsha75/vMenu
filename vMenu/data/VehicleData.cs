@@ -1135,18 +1135,7 @@ namespace vMenuClient
             };
             #endregion
 
-            public static string[] GetAllVehicles()
-            {
-                List<string> vehs = new List<string>();
-                foreach (var vc in VehicleClasses)
-                {
-                    foreach (var c in vc.Value)
-                    {
-                        vehs.Add(c);
-                    }
-                }
-                return vehs.ToArray();
-            }
+            public static readonly Dictionary<string, string> AllVehicles = VehicleClasses.Values.SelectMany(x => x).Distinct().ToDictionary(x => x, GetLabelText);
         }
     }
 }

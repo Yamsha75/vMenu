@@ -9,6 +9,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
 using static vMenuShared.PermissionsManager;
+using static vMenuClient.Notify;
 
 namespace vMenuClient
 {
@@ -16,7 +17,7 @@ namespace vMenuClient
     {
         #region Variables
         private static string _currentScenario = "";
-        private static Vehicle _previousVehicle;
+        public static Vehicle _previousVehicle;
 
         internal static bool DriveToWpTaskActive = false;
         internal static bool DriveWanderTaskActive = false;
@@ -198,6 +199,62 @@ namespace vMenuClient
                 }
             }
             return null;
+        }
+        #endregion
+
+        #region TryParseVehicleName
+
+        public enum MatchingStrategy
+        {
+            Default,
+            OnlyCodes,
+            OnlyNames
+        }
+        public static string TryParseVehicleName(string str, MatchingStrategy strategy = MatchingStrategy.Default)
+        {
+            var strLow = str.ToLower();
+            var strUp = str.ToUpper();
+            var vehicles = VehicleData.Vehicles.AllVehicles;
+            if (strategy != MatchingStrategy.OnlyNames)
+            {
+                var vehicle = vehicles.Keys.FirstOrDefault(x => x.Equals(strUp));
+                if (vehicle != null) return vehicle;
+            }
+
+            List<KeyValuePair<string, string>> similar;
+            if (strategy == MatchingStrategy.OnlyCodes)
+                similar = vehicles.Where(kvp => kvp.Key.ToLower().Contains(strLow)).ToList();
+            else
+                similar = vehicles.Where(kvp => kvp.Value.ToLower().Contains(strLow)).ToList();
+
+            var n = similar.Count();
+            switch (n)
+            {
+                case 0:
+                {
+                    Error($"No vehicle matches string '{str}'!");
+                    return null;
+                }
+                case 1:
+                {
+                    return similar.First().Key;
+                }
+                default:
+                {
+                    Error($"{similar.Count()} vehicles match string '{str}'!");
+                    TriggerEvent("chat:addMessage", new
+                    {
+                        multiline = true,
+                        args = new[]
+                        {
+                            "[vMenu]",
+                            $"Vehicle names matching string '{str}':\n{string.Join(", ", similar)}"
+                        }
+                    });
+                    return null;
+                }
+            }
+
         }
         #endregion
 
