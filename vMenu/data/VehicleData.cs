@@ -554,10 +554,8 @@ namespace vMenuClient
                 "RAPTOR",
                 "REVOLTER",
                 "RUSTON",
-                "SCHAFTER2",
                 "SCHAFTER3",
                 "SCHAFTER4",
-                "SCHAFTER5",
                 "SCHLAGEN", // MPCHRISTMAS2018 DLC
                 "SCHWARZER",
                 "SENTINEL3",
